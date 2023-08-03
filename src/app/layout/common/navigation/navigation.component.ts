@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NavigationService } from './navigation.service';
 
 @Component({
   selector: 'app-navigation',
@@ -6,5 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./navigation.component.scss']
 })
 export class NavigationComponent {
+  links = this.navigationService.links;
 
+  constructor(private navigationService: NavigationService) { }
 }

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { LayoutComponent } from './layout.component';
 import { FooterModule } from './common/footer/footer.module';
 import { NavigationModule } from './common/navigation/navigation.module';
-import { RouterModule } from '@angular/router'; 
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -13,7 +13,7 @@ import { RouterModule } from '@angular/router';
     CommonModule,
     FooterModule,
     NavigationModule,
-    RouterModule 
+    RouterModule
   ],
   exports: [
     LayoutComponent

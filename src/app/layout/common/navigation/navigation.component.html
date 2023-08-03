@@ -1,4 +1,9 @@
 <nav class="bg-blue-500 p-4">
-    <!-- Navigation ici -->
-  </nav>
-  
+  <div class="container mx-auto">
+    <ul class="flex space-x-4">
+      <li *ngFor="let link of links">
+        <a [routerLink]="link.path" class="text-white hover:text-blue-200">{{ link.label }}</a>
+      </li>
+    </ul>
+  </div>
+</nav>

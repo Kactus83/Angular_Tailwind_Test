@@ -1,8 +1,11 @@
-<nav class="bg-blue-500 p-4">
-  <div class="container mx-auto">
+<nav class="bg-blue-500">
+  <div class="container mx-auto px-4 py-2 flex justify-between items-center">
+    <a href="#" class="text-2xl text-white font-bold">MonSite</a>
     <ul class="flex space-x-4">
       <li *ngFor="let link of links">
-        <a [routerLink]="link.path" class="text-white hover:text-blue-200">{{ link.label }}</a>
+        <a [routerLink]="link.path" routerLinkActive="font-bold bg-blue-400 hover:bg-blue-300" class="text-white py-2 px-4 rounded transition duration-300 ease-in-out">
+          {{ link.label }}
+        </a>
       </li>
     </ul>
   </div>

@@ -6,7 +6,7 @@ import { AuthService } from '../auth.service';
 @Injectable({
     providedIn: 'root'
 })
-export class AuthGuard implements CanMatch
+export class NoAuthGuard implements CanMatch
 {
     /**
      * Constructor
@@ -30,7 +30,7 @@ export class AuthGuard implements CanMatch
      */
     canMatch(route: Route, segments: UrlSegment[]): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree
     {
-        return this._check(segments);
+        return this._check();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -40,28 +40,14 @@ export class AuthGuard implements CanMatch
     /**
      * Check the authenticated status
      *
-     * @param segments
      * @private
      */
-    private _check(segments: UrlSegment[]): Observable<boolean | UrlTree>
+    private _check(): Observable<boolean>
     {
-        // Check the authentication status
+        // Check the authentication status and return an observable of
+        // "true" or "false" to allow or prevent the access
         return this._authService.check().pipe(
-            switchMap((authenticated) => {
-
-                // If the user is not authenticated...
-                if ( !authenticated )
-                {
-                    // Redirect to the sign-in page with a redirectUrl param
-                    const redirectURL = `/${segments.join('/')}`;
-                    const urlTree = this._router.parseUrl(`sign-in?redirectURL=${redirectURL}`);
-
-                    return of(urlTree);
-                }
-
-                // Allow the access
-                return of(true);
-            })
+            switchMap((authenticated) => of(!authenticated))
         );
     }
 }

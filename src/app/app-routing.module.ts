@@ -34,14 +34,18 @@ export const appRoutes: Route[] = [
             layout: 'empty'
         },
         children: [
-            {path: 'sign-in', loadChildren: () => import('./modules/auth/sign-in/sign-in.module').then(m => m.AuthSignInModule)}
+            {path: 'confirmation-required', loadChildren: () => import('./modules/auth/confirmation-required/confirmation-required.module').then(m => m.AuthConfirmationRequiredModule)},
+            {path: 'forgot-password', loadChildren: () => import('./modules/auth/forgot-password/forgot-password.module').then(m => m.AuthForgotPasswordModule)},
+            {path: 'reset-password', loadChildren: () => import('./modules/auth/reset-password/reset-password.module').then(m => m.AuthResetPasswordModule)},
+            {path: 'sign-in', loadChildren: () => import('./modules/auth/sign-in/sign-in.module').then(m => m.AuthSignInModule)},
+            {path: 'sign-up', loadChildren: () => import('./modules/auth/sign-up/sign-up.module').then(m => m.AuthSignUpModule)}
         ]
     },
 
     // Auth routes for authenticated users
     {
         path: '',
-        canActivate: [AuthGuard],
+        canMatch: [AuthGuard],
         component: LayoutComponent,
         data: {
             layout: 'default'
@@ -49,7 +53,6 @@ export const appRoutes: Route[] = [
         children: [
             {path: 'sign-out', loadChildren: () => import('./modules/auth/sign-out/sign-out.module').then(m => m.AuthSignOutModule)},
             {path: 'test', loadChildren: () => import('./modules/test-page/test-page.module').then(m => m.TestPageModule)},
-            {path: 'home', loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule)},
         ]
     },
 
@@ -58,7 +61,7 @@ export const appRoutes: Route[] = [
         path: '',
         component: LayoutComponent,
         data: {
-            layout: 'empty'
+            layout: 'default'
         },
         children: [
             {path: 'home', loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule)},

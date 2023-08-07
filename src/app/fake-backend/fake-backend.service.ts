@@ -1,83 +1,96 @@
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpInterceptor, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HTTP_INTERCEPTORS, HttpResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
-import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
+import { delay, dematerialize, materialize, mergeMap } from 'rxjs/operators';
+import Base64 from 'crypto-js/enc-base64';
+import HmacSHA256 from 'crypto-js/hmac-sha256';
+import Utf8 from 'crypto-js/enc-utf8';
 
-@Injectable({
-  providedIn: 'root'
-})
-
+@Injectable()
 export class FakeBackendService implements HttpInterceptor {
-  constructor() {}
+    private readonly _secret: any;
 
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const { url, method, headers, body } = request;
-
-    // wrap in delayed observable to simulate server api call
-    return of(null)
-      .pipe(mergeMap(handleRoute))
-      .pipe(materialize())
-      .pipe(delay(500))
-      .pipe(dematerialize());
-
-    function handleRoute() {
-      switch (true) {
-        case url.endsWith('api/auth/sign-in') && method === 'POST':
-          return authenticate();
-        default:
-          // pass through any requests not handled above
-          return next.handle(request);
-      }
+    constructor() {
+        this._secret = 'YOUR_VERY_CONFIDENTIAL_SECRET_FOR_SIGNING_JWT_TOKENS!!!';
     }
 
-    // route functions
-
-    function authenticate() {
-      const { email, password } = body;
-      if (email === 'test.account@ruze.com' && password === 'password') {
-        const token = createFakeJWT({
-            id: 1,
-            username: 'test',
-            email: 'test.account@ruze.com',
-            exp: Math.floor(Date.now() / 1000) + (60 * 60) // Expiration à 1 heure
-        });
-        return ok({
-            id: 1,
-            username: 'test',
-            email: 'test.account@ruze.com',
-            token: token
-        });
-      } else {
-        return error('Username or password is incorrect');
-      }
+    intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        return mergeMap(() => this.handleRoute(request, next))(of(null))
+            .pipe(materialize())
+            .pipe(delay(500))
+            .pipe(dematerialize());
     }
 
-    // JWT generation function
-    function createFakeJWT(payload: object): string {
-        const header = { alg: "none", typ: "JWT" };
-        const base64UrlEncode = (src: object) => btoa(JSON.stringify(src)).replace('+', '-').replace('/', '_').replace(/=+$/, '');
-        return [
-            base64UrlEncode(header),
-            base64UrlEncode(payload),
-            ""
-        ].join('.');
+    private handleRoute(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        switch (true) {
+            case req.url.endsWith('api/auth/sign-in') && req.method === 'POST':
+                return this.authenticate(req);
+            default:
+                return next.handle(req);
+        }
     }
 
-    // helper functions
-
-    function ok(body?) {
-      return of(new HttpResponse({ status: 200, body }));
+    private authenticate(req: HttpRequest<any>): Observable<HttpResponse<any>> {
+        const { email, password } = req.body;
+        if (email === 'test.account@ruze.com' && password === 'password') {
+            return this.ok({
+                user       : { id: 1, username: 'test', email: 'test.account@ruze.com' },
+                accessToken: this.generateJWTToken(),
+                tokenType  : 'bearer'
+            });
+        } else {
+            return this.error('Username or password is incorrect');
+        }
     }
 
-    function error(message) {
-      return throwError({ error: { message } });
+    private ok(body?): Observable<HttpResponse<any>> {
+        return of(new HttpResponse({ status: 200, body }));
     }
-  }
+
+    private error(message): Observable<never> {
+        return throwError({ error: { message } });
+    }
+
+    private generateJWTToken(): string {
+        const header = {
+            alg: 'HS256',
+            typ: 'JWT'
+        };
+
+        const date = new Date();
+        const iat = Math.floor(date.getTime() / 1000);
+        const exp = Math.floor((date.setDate(date.getDate() + 7)) / 1000);
+
+        const payload = {
+            iat: iat,
+            iss: 'Fuse',
+            exp: exp
+        };
+
+        const stringifiedHeader = Utf8.parse(JSON.stringify(header));
+        const encodedHeader = this.base64url(stringifiedHeader);
+
+        const stringifiedPayload = Utf8.parse(JSON.stringify(payload));
+        const encodedPayload = this.base64url(stringifiedPayload);
+
+        let signature: any = encodedHeader + '.' + encodedPayload;
+        signature = HmacSHA256(signature, this._secret);
+        signature = this.base64url(signature);
+
+        return encodedHeader + '.' + encodedPayload + '.' + signature;
+    }
+
+    private base64url(source: any): string {
+        let encodedSource = Base64.stringify(source);
+        encodedSource = encodedSource.replace(/=+$/, '');
+        encodedSource = encodedSource.replace(/\+/g, '-');
+        encodedSource = encodedSource.replace(/\//g, '_');
+        return encodedSource;
+    }
 }
 
 export const fakeBackendProvider = {
-  // use fake backend in place of Http service for backend-less development
-  provide: HTTP_INTERCEPTORS,
-  useClass: FakeBackendService,
-  multi: true
+    provide: HTTP_INTERCEPTORS,
+    useClass: FakeBackendService,
+    multi: true
 };

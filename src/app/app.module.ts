@@ -6,6 +6,12 @@ import { AppComponent } from './app.component';
 import { LayoutModule } from './layout/layout.module';
 import { TestPageModule } from './modules/test-page/test-page.module';
 import { HomeModule } from './modules/home/home.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RuzeModule } from 'src/@ruze/ruze.module';
+import { RuzeConfigModule } from 'src/@ruze/services/config';
+import { appConfig } from './core/config/app.config';
+import { CoreModule } from './core/core.module';
+import { FakeBackendModule } from './fake-backend/fake-backend.module';
 
 @NgModule({
   declarations: [
@@ -16,7 +22,14 @@ import { HomeModule } from './modules/home/home.module';
     AppRoutingModule,
     LayoutModule,
     TestPageModule,
-    HomeModule
+    HomeModule,
+    BrowserAnimationsModule,
+    CoreModule,
+    // Fuse, FuseConfig & FuseMockAPI
+    RuzeModule,
+    RuzeConfigModule.forRoot(appConfig),
+    //For test
+    FakeBackendModule
   ],
   providers: [],
   bootstrap: [AppComponent]

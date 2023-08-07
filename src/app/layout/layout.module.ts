@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LayoutComponent } from './layout.component';
-import { FooterModule } from './common/footer/footer.module';
-import { NavigationModule } from './common/navigation/navigation.module';
+import { EmptyLayoutModule } from './layouts/empty-layout/empty-layout.module';
+import { DefaultLayoutModule } from './layouts/default-layout/default-layout.module';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
@@ -11,12 +11,14 @@ import { RouterModule } from '@angular/router';
   ],
   imports: [
     CommonModule,
-    FooterModule,
-    NavigationModule,
+    EmptyLayoutModule,
+    DefaultLayoutModule,
     RouterModule
   ],
   exports: [
-    LayoutComponent
+    LayoutComponent,
+    EmptyLayoutModule,
+    DefaultLayoutModule
   ]
 })
 export class LayoutModule { }

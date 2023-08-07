@@ -48,6 +48,7 @@ export class AuthGuard implements CanMatch
         // Check the authentication status
         return this._authService.check().pipe(
             switchMap((authenticated) => {
+                console.log(authenticated);
 
                 // If the user is not authenticated...
                 if ( !authenticated )

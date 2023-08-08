@@ -4,23 +4,23 @@ import { DOCUMENT } from '@angular/common';
 import { NavigationEnd, Router } from '@angular/router';
 import { ScrollStrategy, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { delay, filter, merge, ReplaySubject, Subject, Subscription, takeUntil } from 'rxjs';
-import { fuseAnimations } from '@fuse/animations';
-import { FuseNavigationItem, FuseVerticalNavigationAppearance, FuseVerticalNavigationMode, FuseVerticalNavigationPosition } from '@fuse/components/navigation/navigation.types';
-import { FuseNavigationService } from '@fuse/components/navigation/navigation.service';
-import { FuseScrollbarDirective } from '@fuse/directives/scrollbar/scrollbar.directive';
-import { FuseUtilsService } from '@fuse/services/utils/utils.service';
+import { ruzeAnimations } from '../../../animations';
+import { RuzeNavigationItem, RuzeVerticalNavigationAppearance, RuzeVerticalNavigationMode, RuzeVerticalNavigationPosition } from '../navigation.types';
+import { RuzeNavigationService } from '../navigation.service';
+import { RuzeScrollbarDirective } from '../../../directives/scrollbar/scrollbar.directive';
+import { RuzeUtilsService } from '../../../services/utils/utils.service';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 
 @Component({
-    selector       : 'fuse-vertical-navigation',
+    selector       : 'ruze-vertical-navigation',
     templateUrl    : './vertical.component.html',
     styleUrls      : ['./vertical.component.scss'],
-    animations     : fuseAnimations,
+    animations     : ruzeAnimations,
     encapsulation  : ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
-    exportAs       : 'fuseVerticalNavigation'
+    exportAs       : 'ruzeVerticalNavigation'
 })
-export class FuseVerticalNavigationComponent implements OnChanges, OnInit, AfterViewInit, OnDestroy
+export class RuzeVerticalNavigationComponent implements OnChanges, OnInit, AfterViewInit, OnDestroy
 {
     /* eslint-disable @typescript-eslint/naming-convention */
     static ngAcceptInputType_inner: BooleanInput;
@@ -28,24 +28,24 @@ export class FuseVerticalNavigationComponent implements OnChanges, OnInit, After
     static ngAcceptInputType_transparentOverlay: BooleanInput;
     /* eslint-enable @typescript-eslint/naming-convention */
 
-    @Input() appearance: FuseVerticalNavigationAppearance = 'default';
+    @Input() appearance: RuzeVerticalNavigationAppearance = 'default';
     @Input() autoCollapse: boolean = true;
     @Input() inner: boolean = false;
-    @Input() mode: FuseVerticalNavigationMode = 'side';
-    @Input() name: string = this._fuseUtilsService.randomId();
-    @Input() navigation: FuseNavigationItem[];
+    @Input() mode: RuzeVerticalNavigationMode = 'side';
+    @Input() name: string = this._ruzeUtilsService.randomId();
+    @Input() navigation: RuzeNavigationItem[];
     @Input() opened: boolean = true;
-    @Input() position: FuseVerticalNavigationPosition = 'left';
+    @Input() position: RuzeVerticalNavigationPosition = 'left';
     @Input() transparentOverlay: boolean = false;
-    @Output() readonly appearanceChanged: EventEmitter<FuseVerticalNavigationAppearance> = new EventEmitter<FuseVerticalNavigationAppearance>();
-    @Output() readonly modeChanged: EventEmitter<FuseVerticalNavigationMode> = new EventEmitter<FuseVerticalNavigationMode>();
+    @Output() readonly appearanceChanged: EventEmitter<RuzeVerticalNavigationAppearance> = new EventEmitter<RuzeVerticalNavigationAppearance>();
+    @Output() readonly modeChanged: EventEmitter<RuzeVerticalNavigationMode> = new EventEmitter<RuzeVerticalNavigationMode>();
     @Output() readonly openedChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
-    @Output() readonly positionChanged: EventEmitter<FuseVerticalNavigationPosition> = new EventEmitter<FuseVerticalNavigationPosition>();
+    @Output() readonly positionChanged: EventEmitter<RuzeVerticalNavigationPosition> = new EventEmitter<RuzeVerticalNavigationPosition>();
     @ViewChild('navigationContent') private _navigationContentEl: ElementRef;
 
     activeAsideItemId: string | null = null;
-    onCollapsableItemCollapsed: ReplaySubject<FuseNavigationItem> = new ReplaySubject<FuseNavigationItem>(1);
-    onCollapsableItemExpanded: ReplaySubject<FuseNavigationItem> = new ReplaySubject<FuseNavigationItem>(1);
+    onCollapsableItemCollapsed: ReplaySubject<RuzeNavigationItem> = new ReplaySubject<RuzeNavigationItem>(1);
+    onCollapsableItemExpanded: ReplaySubject<RuzeNavigationItem> = new ReplaySubject<RuzeNavigationItem>(1);
     onRefreshed: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
     private _animationsEnabled: boolean = false;
     private _asideOverlay: HTMLElement;
@@ -56,8 +56,8 @@ export class FuseVerticalNavigationComponent implements OnChanges, OnInit, After
     private _overlay: HTMLElement;
     private _player: AnimationPlayer;
     private _scrollStrategy: ScrollStrategy = this._scrollStrategyOptions.block();
-    private _fuseScrollbarDirectives!: QueryList<FuseScrollbarDirective>;
-    private _fuseScrollbarDirectivesSubscription: Subscription;
+    private _ruzeScrollbarDirectives!: QueryList<RuzeScrollbarDirective>;
+    private _ruzeScrollbarDirectivesSubscription: Subscription;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -71,8 +71,8 @@ export class FuseVerticalNavigationComponent implements OnChanges, OnInit, After
         private _renderer2: Renderer2,
         private _router: Router,
         private _scrollStrategyOptions: ScrollStrategyOptions,
-        private _fuseNavigationService: FuseNavigationService,
-        private _fuseUtilsService: FuseUtilsService
+        private _ruzeNavigationService: RuzeNavigationService,
+        private _ruzeUtilsService: RuzeUtilsService
     )
     {
         this._handleAsideOverlayClick = (): void => {
@@ -94,15 +94,15 @@ export class FuseVerticalNavigationComponent implements OnChanges, OnInit, After
     {
         /* eslint-disable @typescript-eslint/naming-convention */
         return {
-            'fuse-vertical-navigation-animations-enabled'             : this._animationsEnabled,
-            [`fuse-vertical-navigation-appearance-${this.appearance}`]: true,
-            'fuse-vertical-navigation-hover'                          : this._hovered,
-            'fuse-vertical-navigation-inner'                          : this.inner,
-            'fuse-vertical-navigation-mode-over'                      : this.mode === 'over',
-            'fuse-vertical-navigation-mode-side'                      : this.mode === 'side',
-            'fuse-vertical-navigation-opened'                         : this.opened,
-            'fuse-vertical-navigation-position-left'                  : this.position === 'left',
-            'fuse-vertical-navigation-position-right'                 : this.position === 'right'
+            'ruze-vertical-navigation-animations-enabled'             : this._animationsEnabled,
+            [`ruze-vertical-navigation-appearance-${this.appearance}`]: true,
+            'ruze-vertical-navigation-hover'                          : this._hovered,
+            'ruze-vertical-navigation-inner'                          : this.inner,
+            'ruze-vertical-navigation-mode-over'                      : this.mode === 'over',
+            'ruze-vertical-navigation-mode-side'                      : this.mode === 'side',
+            'ruze-vertical-navigation-opened'                         : this.opened,
+            'ruze-vertical-navigation-position-left'                  : this.position === 'left',
+            'ruze-vertical-navigation-position-right'                 : this.position === 'right'
         };
         /* eslint-enable @typescript-eslint/naming-convention */
     }
@@ -118,28 +118,28 @@ export class FuseVerticalNavigationComponent implements OnChanges, OnInit, After
     }
 
     /**
-     * Setter for fuseScrollbarDirectives
+     * Setter for ruzeScrollbarDirectives
      */
-    @ViewChildren(FuseScrollbarDirective)
-    set fuseScrollbarDirectives(fuseScrollbarDirectives: QueryList<FuseScrollbarDirective>)
+    @ViewChildren(RuzeScrollbarDirective)
+    set ruzeScrollbarDirectives(ruzeScrollbarDirectives: QueryList<RuzeScrollbarDirective>)
     {
         // Store the directives
-        this._fuseScrollbarDirectives = fuseScrollbarDirectives;
+        this._ruzeScrollbarDirectives = ruzeScrollbarDirectives;
 
         // Return if there are no directives
-        if ( fuseScrollbarDirectives.length === 0 )
+        if ( ruzeScrollbarDirectives.length === 0 )
         {
             return;
         }
 
         // Unsubscribe the previous subscriptions
-        if ( this._fuseScrollbarDirectivesSubscription )
+        if ( this._ruzeScrollbarDirectivesSubscription )
         {
-            this._fuseScrollbarDirectivesSubscription.unsubscribe();
+            this._ruzeScrollbarDirectivesSubscription.unsubscribe();
         }
 
         // Update the scrollbars on collapsable items' collapse/expand
-        this._fuseScrollbarDirectivesSubscription =
+        this._ruzeScrollbarDirectivesSubscription =
             merge(
                 this.onCollapsableItemCollapsed,
                 this.onCollapsableItemExpanded
@@ -151,8 +151,8 @@ export class FuseVerticalNavigationComponent implements OnChanges, OnInit, After
                 .subscribe(() => {
 
                     // Loop through the scrollbars and update them
-                    fuseScrollbarDirectives.forEach((fuseScrollbarDirective) => {
-                        fuseScrollbarDirective.update();
+                    ruzeScrollbarDirectives.forEach((ruzeScrollbarDirective) => {
+                        ruzeScrollbarDirective.update();
                     });
                 });
     }
@@ -206,22 +206,22 @@ export class FuseVerticalNavigationComponent implements OnChanges, OnInit, After
         if ( 'appearance' in changes )
         {
             // Execute the observable
-            this.appearanceChanged.next(changes.appearance.currentValue);
+            this.appearanceChanged.next(changes['appearance'].currentValue);
         }
 
         // Inner
         if ( 'inner' in changes )
         {
             // Coerce the value to a boolean
-            this.inner = coerceBooleanProperty(changes.inner.currentValue);
+            this.inner = coerceBooleanProperty(changes['inner'].currentValue);
         }
 
         // Mode
         if ( 'mode' in changes )
         {
             // Get the previous and current values
-            const currentMode = changes.mode.currentValue;
-            const previousMode = changes.mode.previousValue;
+            const currentMode = changes['mode'].currentValue;
+            const previousMode = changes['mode'].previousValue;
 
             // Disable the animations
             this._disableAnimations();
@@ -269,7 +269,7 @@ export class FuseVerticalNavigationComponent implements OnChanges, OnInit, After
         if ( 'opened' in changes )
         {
             // Coerce the value to a boolean
-            this.opened = coerceBooleanProperty(changes.opened.currentValue);
+            this.opened = coerceBooleanProperty(changes['opened'].currentValue);
 
             // Open/close the navigation
             this._toggleOpened(this.opened);
@@ -279,14 +279,14 @@ export class FuseVerticalNavigationComponent implements OnChanges, OnInit, After
         if ( 'position' in changes )
         {
             // Execute the observable
-            this.positionChanged.next(changes.position.currentValue);
+            this.positionChanged.next(changes['position'].currentValue);
         }
 
         // Transparent overlay
         if ( 'transparentOverlay' in changes )
         {
             // Coerce the value to a boolean
-            this.transparentOverlay = coerceBooleanProperty(changes.transparentOverlay.currentValue);
+            this.transparentOverlay = coerceBooleanProperty(changes['transparentOverlay'].currentValue);
         }
     }
 
@@ -298,11 +298,11 @@ export class FuseVerticalNavigationComponent implements OnChanges, OnInit, After
         // Make sure the name input is not an empty string
         if ( this.name === '' )
         {
-            this.name = this._fuseUtilsService.randomId();
+            this.name = this._ruzeUtilsService.randomId();
         }
 
         // Register the navigation component
-        this._fuseNavigationService.registerComponent(this.name, this);
+        this._ruzeNavigationService.registerComponent(this.name, this);
 
         // Subscribe to the 'NavigationEnd' event
         this._router.events
@@ -374,7 +374,7 @@ export class FuseVerticalNavigationComponent implements OnChanges, OnInit, After
             if ( !this._navigationContentEl.nativeElement.classList.contains('ps') )
             {
                 // Find the active item
-                const activeItem = this._navigationContentEl.nativeElement.querySelector('.fuse-vertical-navigation-item-active');
+                const activeItem = this._navigationContentEl.nativeElement.querySelector('.ruze-vertical-navigation-item-active');
 
                 // If the active item exists, scroll it into view
                 if ( activeItem )
@@ -386,16 +386,16 @@ export class FuseVerticalNavigationComponent implements OnChanges, OnInit, After
             else
             {
                 // Go through all the scrollbar directives
-                this._fuseScrollbarDirectives.forEach((fuseScrollbarDirective) => {
+                this._ruzeScrollbarDirectives.forEach((ruzeScrollbarDirective) => {
 
                     // Skip if not enabled
-                    if ( !fuseScrollbarDirective.isEnabled() )
+                    if ( !ruzeScrollbarDirective.isEnabled() )
                     {
                         return;
                     }
 
                     // Scroll to the active element
-                    fuseScrollbarDirective.scrollToElement('.fuse-vertical-navigation-item-active', -120, true);
+                    ruzeScrollbarDirective.scrollToElement('.ruze-vertical-navigation-item-active', -120, true);
                 });
             }
         });
@@ -414,7 +414,7 @@ export class FuseVerticalNavigationComponent implements OnChanges, OnInit, After
         this.closeAside();
 
         // Deregister the navigation component from the registry
-        this._fuseNavigationService.deregisterComponent(this.name);
+        this._ruzeNavigationService.deregisterComponent(this.name);
 
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next(null);
@@ -491,7 +491,7 @@ export class FuseVerticalNavigationComponent implements OnChanges, OnInit, After
      *
      * @param item
      */
-    openAside(item: FuseNavigationItem): void
+    openAside(item: RuzeNavigationItem): void
     {
         // Return if the item is disabled
         if ( item.disabled || !item.id )
@@ -529,7 +529,7 @@ export class FuseVerticalNavigationComponent implements OnChanges, OnInit, After
      *
      * @param item
      */
-    toggleAside(item: FuseNavigationItem): void
+    toggleAside(item: RuzeNavigationItem): void
     {
         // Toggle
         if ( this.activeAsideItemId === item.id )
@@ -608,12 +608,12 @@ export class FuseVerticalNavigationComponent implements OnChanges, OnInit, After
         this._overlay = this._renderer2.createElement('div');
 
         // Add a class to the overlay element
-        this._overlay.classList.add('fuse-vertical-navigation-overlay');
+        this._overlay.classList.add('ruze-vertical-navigation-overlay');
 
         // Add a class depending on the transparentOverlay option
         if ( this.transparentOverlay )
         {
-            this._overlay.classList.add('fuse-vertical-navigation-overlay-transparent');
+            this._overlay.classList.add('ruze-vertical-navigation-overlay-transparent');
         }
 
         // Append the overlay to the parent of the navigation
@@ -690,7 +690,7 @@ export class FuseVerticalNavigationComponent implements OnChanges, OnInit, After
         this._asideOverlay = this._renderer2.createElement('div');
 
         // Add a class to the aside overlay element
-        this._asideOverlay.classList.add('fuse-vertical-navigation-aside-overlay');
+        this._asideOverlay.classList.add('ruze-vertical-navigation-aside-overlay');
 
         // Append the aside overlay to the parent of the navigation
         this._renderer2.appendChild(this._elementRef.nativeElement.parentElement, this._asideOverlay);

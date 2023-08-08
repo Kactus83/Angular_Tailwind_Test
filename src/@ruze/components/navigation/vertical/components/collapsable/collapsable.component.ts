@@ -2,30 +2,30 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostBinding, Inp
 import { NavigationEnd, Router } from '@angular/router';
 import { BooleanInput } from '@angular/cdk/coercion';
 import { filter, Subject, takeUntil } from 'rxjs';
-import { fuseAnimations } from '@fuse/animations';
-import { FuseVerticalNavigationComponent } from '@fuse/components/navigation/vertical/vertical.component';
-import { FuseNavigationService } from '@fuse/components/navigation/navigation.service';
-import { FuseNavigationItem } from '@fuse/components/navigation/navigation.types';
+import { ruzeAnimations } from '../../../../../animations';
+import { RuzeVerticalNavigationComponent } from '../../../vertical/vertical.component';
+import { RuzeNavigationService } from '../../../navigation.service';
+import { RuzeNavigationItem } from '../../../navigation.types';
 
 @Component({
-    selector       : 'fuse-vertical-navigation-collapsable-item',
+    selector       : 'ruze-vertical-navigation-collapsable-item',
     templateUrl    : './collapsable.component.html',
-    animations     : fuseAnimations,
+    animations     : ruzeAnimations,
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FuseVerticalNavigationCollapsableItemComponent implements OnInit, OnDestroy
+export class RuzeVerticalNavigationCollapsableItemComponent implements OnInit, OnDestroy
 {
     /* eslint-disable @typescript-eslint/naming-convention */
     static ngAcceptInputType_autoCollapse: BooleanInput;
     /* eslint-enable @typescript-eslint/naming-convention */
 
     @Input() autoCollapse: boolean;
-    @Input() item: FuseNavigationItem;
+    @Input() item: RuzeNavigationItem;
     @Input() name: string;
 
     isCollapsed: boolean = true;
     isExpanded: boolean = false;
-    private _fuseVerticalNavigationComponent: FuseVerticalNavigationComponent;
+    private _ruzeVerticalNavigationComponent: RuzeVerticalNavigationComponent;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -34,7 +34,7 @@ export class FuseVerticalNavigationCollapsableItemComponent implements OnInit, O
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
-        private _fuseNavigationService: FuseNavigationService
+        private _ruzeNavigationService: RuzeNavigationService
     )
     {
     }
@@ -50,8 +50,8 @@ export class FuseVerticalNavigationCollapsableItemComponent implements OnInit, O
     {
         /* eslint-disable @typescript-eslint/naming-convention */
         return {
-            'fuse-vertical-navigation-item-collapsed': this.isCollapsed,
-            'fuse-vertical-navigation-item-expanded' : this.isExpanded
+            'ruze-vertical-navigation-item-collapsed': this.isCollapsed,
+            'ruze-vertical-navigation-item-expanded' : this.isExpanded
         };
         /* eslint-enable @typescript-eslint/naming-convention */
     }
@@ -66,7 +66,7 @@ export class FuseVerticalNavigationCollapsableItemComponent implements OnInit, O
     ngOnInit(): void
     {
         // Get the parent navigation component
-        this._fuseVerticalNavigationComponent = this._fuseNavigationService.getComponent(this.name);
+        this._ruzeVerticalNavigationComponent = this._ruzeNavigationService.getComponent(this.name);
 
         // If the item has a children that has a matching url with the current url, expand...
         if ( this._hasActiveChild(this.item, this._router.url) )
@@ -84,7 +84,7 @@ export class FuseVerticalNavigationCollapsableItemComponent implements OnInit, O
         }
 
         // Listen for the onCollapsableItemCollapsed from the service
-        this._fuseVerticalNavigationComponent.onCollapsableItemCollapsed
+        this._ruzeVerticalNavigationComponent.onCollapsableItemCollapsed
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((collapsedItem) => {
 
@@ -104,7 +104,7 @@ export class FuseVerticalNavigationCollapsableItemComponent implements OnInit, O
         // Listen for the onCollapsableItemExpanded from the service if the autoCollapse is on
         if ( this.autoCollapse )
         {
-            this._fuseVerticalNavigationComponent.onCollapsableItemExpanded
+            this._ruzeVerticalNavigationComponent.onCollapsableItemExpanded
                 .pipe(takeUntil(this._unsubscribeAll))
                 .subscribe((expandedItem) => {
 
@@ -162,7 +162,7 @@ export class FuseVerticalNavigationCollapsableItemComponent implements OnInit, O
             });
 
         // Subscribe to onRefreshed on the navigation component
-        this._fuseVerticalNavigationComponent.onRefreshed.pipe(
+        this._ruzeVerticalNavigationComponent.onRefreshed.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(() => {
 
@@ -210,7 +210,7 @@ export class FuseVerticalNavigationCollapsableItemComponent implements OnInit, O
         this._changeDetectorRef.markForCheck();
 
         // Execute the observable
-        this._fuseVerticalNavigationComponent.onCollapsableItemCollapsed.next(this.item);
+        this._ruzeVerticalNavigationComponent.onCollapsableItemCollapsed.next(this.item);
     }
 
     /**
@@ -238,7 +238,7 @@ export class FuseVerticalNavigationCollapsableItemComponent implements OnInit, O
         this._changeDetectorRef.markForCheck();
 
         // Execute the observable
-        this._fuseVerticalNavigationComponent.onCollapsableItemExpanded.next(this.item);
+        this._ruzeVerticalNavigationComponent.onCollapsableItemExpanded.next(this.item);
     }
 
     /**
@@ -280,7 +280,7 @@ export class FuseVerticalNavigationCollapsableItemComponent implements OnInit, O
      * @param currentUrl
      * @private
      */
-    private _hasActiveChild(item: FuseNavigationItem, currentUrl: string): boolean
+    private _hasActiveChild(item: RuzeNavigationItem, currentUrl: string): boolean
     {
         const children = item.children;
 
@@ -317,7 +317,7 @@ export class FuseVerticalNavigationCollapsableItemComponent implements OnInit, O
      * @param item
      * @private
      */
-    private _isChildrenOf(parent: FuseNavigationItem, item: FuseNavigationItem): boolean
+    private _isChildrenOf(parent: RuzeNavigationItem, item: RuzeNavigationItem): boolean
     {
         const children = parent.children;
 

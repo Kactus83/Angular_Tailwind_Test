@@ -1,20 +1,20 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
-import { FuseVerticalNavigationComponent } from '@fuse/components/navigation/vertical/vertical.component';
-import { FuseNavigationService } from '@fuse/components/navigation/navigation.service';
-import { FuseNavigationItem } from '@fuse/components/navigation/navigation.types';
+import { RuzeVerticalNavigationComponent } from '../../vertical.component';
+import { RuzeNavigationService } from '../../../navigation.service';
+import { RuzeNavigationItem } from '../../../navigation.types';
 
 @Component({
-    selector       : 'fuse-vertical-navigation-divider-item',
+    selector       : 'ruze-vertical-navigation-divider-item',
     templateUrl    : './divider.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FuseVerticalNavigationDividerItemComponent implements OnInit, OnDestroy
+export class RuzeVerticalNavigationDividerItemComponent implements OnInit, OnDestroy
 {
-    @Input() item: FuseNavigationItem;
+    @Input() item: RuzeNavigationItem;
     @Input() name: string;
 
-    private _fuseVerticalNavigationComponent: FuseVerticalNavigationComponent;
+    private _ruzeVerticalNavigationComponent: RuzeVerticalNavigationComponent;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -22,7 +22,7 @@ export class FuseVerticalNavigationDividerItemComponent implements OnInit, OnDes
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseNavigationService: FuseNavigationService
+        private _ruzeNavigationService: RuzeNavigationService
     )
     {
     }
@@ -37,10 +37,10 @@ export class FuseVerticalNavigationDividerItemComponent implements OnInit, OnDes
     ngOnInit(): void
     {
         // Get the parent navigation component
-        this._fuseVerticalNavigationComponent = this._fuseNavigationService.getComponent(this.name);
+        this._ruzeVerticalNavigationComponent = this._ruzeNavigationService.getComponent(this.name);
 
         // Subscribe to onRefreshed on the navigation component
-        this._fuseVerticalNavigationComponent.onRefreshed.pipe(
+        this._ruzeVerticalNavigationComponent.onRefreshed.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(() => {
 

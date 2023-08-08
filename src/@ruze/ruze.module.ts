@@ -1,13 +1,21 @@
 import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { MATERIAL_SANITY_CHECKS } from '@angular/material/core';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { RuzeConfirmationModule } from './services/confirmation';
+import { RuzeLoadingModule } from './services/loading';
 import { RuzeMediaWatcherModule } from './services/media-watcher/media-watcher.module';
 import { RuzePlatformModule } from './services/platform/platform.module';
+import { RuzeSplashScreenModule } from './services/splash-screen/splash-screen.module';
+import { RuzeUtilsModule } from './services/utils/utils.module';
 
 @NgModule({
     imports  : [
+        RuzeConfirmationModule,
+        RuzeLoadingModule,
         RuzeMediaWatcherModule,
-        RuzePlatformModule
+        RuzePlatformModule,
+        RuzeSplashScreenModule,
+        RuzeUtilsModule
     ],
     providers: [
         {

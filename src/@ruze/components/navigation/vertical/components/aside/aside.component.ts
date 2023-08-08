@@ -2,16 +2,16 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges
 import { NavigationEnd, Router } from '@angular/router';
 import { BooleanInput } from '@angular/cdk/coercion';
 import { filter, Subject, takeUntil } from 'rxjs';
-import { FuseVerticalNavigationComponent } from '@fuse/components/navigation/vertical/vertical.component';
-import { FuseNavigationService } from '@fuse/components/navigation/navigation.service';
-import { FuseNavigationItem } from '@fuse/components/navigation/navigation.types';
+import { RuzeVerticalNavigationComponent } from '../../vertical.component';
+import { RuzeNavigationService } from '../../../navigation.service';
+import { RuzeNavigationItem } from '../../../navigation.types';
 
 @Component({
-    selector       : 'fuse-vertical-navigation-aside-item',
+    selector       : 'ruze-vertical-navigation-aside-item',
     templateUrl    : './aside.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FuseVerticalNavigationAsideItemComponent implements OnChanges, OnInit, OnDestroy
+export class RuzeVerticalNavigationAsideItemComponent implements OnChanges, OnInit, OnDestroy
 {
     /* eslint-disable @typescript-eslint/naming-convention */
     static ngAcceptInputType_autoCollapse: BooleanInput;
@@ -20,12 +20,12 @@ export class FuseVerticalNavigationAsideItemComponent implements OnChanges, OnIn
 
     @Input() activeItemId: string;
     @Input() autoCollapse: boolean;
-    @Input() item: FuseNavigationItem;
+    @Input() item: RuzeNavigationItem;
     @Input() name: string;
     @Input() skipChildren: boolean;
 
     active: boolean = false;
-    private _fuseVerticalNavigationComponent: FuseVerticalNavigationComponent;
+    private _ruzeVerticalNavigationComponent: RuzeVerticalNavigationComponent;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -34,7 +34,7 @@ export class FuseVerticalNavigationAsideItemComponent implements OnChanges, OnIn
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
-        private _fuseNavigationService: FuseNavigationService
+        private _ruzeNavigationService: RuzeNavigationService
     )
     {
     }
@@ -79,10 +79,10 @@ export class FuseVerticalNavigationAsideItemComponent implements OnChanges, OnIn
             });
 
         // Get the parent navigation component
-        this._fuseVerticalNavigationComponent = this._fuseNavigationService.getComponent(this.name);
+        this._ruzeVerticalNavigationComponent = this._ruzeNavigationService.getComponent(this.name);
 
         // Subscribe to onRefreshed on the navigation component
-        this._fuseVerticalNavigationComponent.onRefreshed.pipe(
+        this._ruzeVerticalNavigationComponent.onRefreshed.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(() => {
 
@@ -128,7 +128,7 @@ export class FuseVerticalNavigationAsideItemComponent implements OnChanges, OnIn
      * @param currentUrl
      * @private
      */
-    private _hasActiveChild(item: FuseNavigationItem, currentUrl: string): boolean
+    private _hasActiveChild(item: RuzeNavigationItem, currentUrl: string): boolean
     {
         const children = item.children;
 

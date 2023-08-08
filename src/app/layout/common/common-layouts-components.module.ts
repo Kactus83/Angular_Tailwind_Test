@@ -1,7 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FooterModule } from './footer/footer.module';
-import { NavigationModule } from './navigation/navigation.module';
+import { LanguagesModule } from './languages/languages.module';
+import { MessagesModule } from './messages/messages.module';
+import { NotificationsModule } from './notifications/notifications.module';
+import { QuickChatModule } from './quick-chat/quick-chat.module';
+import { SearchModule } from './search/search.module';
+import { SettingsModule } from './settings/settings.module';
+import { ShortcutsModule } from './shortcuts/shortcuts.module';
+import { UserModule } from './user/user.module';
 
 
 
@@ -9,12 +15,24 @@ import { NavigationModule } from './navigation/navigation.module';
   declarations: [],
   imports: [
     CommonModule,
-    FooterModule,
-    NavigationModule
+    LanguagesModule,
+    MessagesModule,
+    NotificationsModule,
+    QuickChatModule,
+    SearchModule,
+    SettingsModule,
+    ShortcutsModule,
+    UserModule
   ],
   exports: [
-    FooterModule,
-    NavigationModule
+    LanguagesModule,
+    MessagesModule,
+    NotificationsModule,
+    QuickChatModule,
+    SearchModule,
+    SettingsModule,
+    ShortcutsModule,
+    UserModule
   ]
 })
 export class CommonLayoutsComponentsModule { }

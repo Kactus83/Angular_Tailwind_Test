@@ -1,90 +1,90 @@
 /* Variables */
 :root {
-    --fuse-vertical-navigation-width: 280px;
-    --fuse-vertical-navigation-dense-width: 80px;
+    --ruze-vertical-navigation-width: 280px;
+    --ruze-vertical-navigation-dense-width: 80px;
 }
 
-fuse-vertical-navigation {
+ruze-vertical-navigation {
 
     /* Dense appearance overrides */
-    &.fuse-vertical-navigation-appearance-dense {
+    &.ruze-vertical-navigation-appearance-dense {
 
-        &:not(.fuse-vertical-navigation-mode-over) {
-            width: var(--fuse-vertical-navigation-dense-width);
-            min-width: var(--fuse-vertical-navigation-dense-width);
-            max-width: var(--fuse-vertical-navigation-dense-width);
+        &:not(.ruze-vertical-navigation-mode-over) {
+            width: var(--ruze-vertical-navigation-dense-width);
+            min-width: var(--ruze-vertical-navigation-dense-width);
+            max-width: var(--ruze-vertical-navigation-dense-width);
 
             /* Left positioned */
-            &.fuse-vertical-navigation-position-left {
+            &.ruze-vertical-navigation-position-left {
 
                 /* Side mode */
-                &.fuse-vertical-navigation-mode-side {
-                    margin-left: calc(var(--fuse-vertical-navigation-dense-width) * -1);
+                &.ruze-vertical-navigation-mode-side {
+                    margin-left: calc(var(--ruze-vertical-navigation-dense-width) * -1);
                 }
 
                 /* Opened */
-                &.fuse-vertical-navigation-opened {
+                &.ruze-vertical-navigation-opened {
                     margin-left: 0;
                 }
             }
 
             /* Right positioned */
-            &.fuse-vertical-navigation-position-right {
+            &.ruze-vertical-navigation-position-right {
 
                 /* Side mode */
-                &.fuse-vertical-navigation-mode-side {
-                    margin-right: calc(var(--fuse-vertical-navigation-dense-width) * -1);
+                &.ruze-vertical-navigation-mode-side {
+                    margin-right: calc(var(--ruze-vertical-navigation-dense-width) * -1);
                 }
 
                 /* Opened */
-                &.fuse-vertical-navigation-opened {
+                &.ruze-vertical-navigation-opened {
                     margin-right: 0;
                 }
 
                 /* Aside wrapper */
-                .fuse-vertical-navigation-aside-wrapper {
+                .ruze-vertical-navigation-aside-wrapper {
                     left: auto;
-                    right: var(--fuse-vertical-navigation-dense-width);
+                    right: var(--ruze-vertical-navigation-dense-width);
                 }
 
-                &.fuse-vertical-navigation-hover {
+                &.ruze-vertical-navigation-hover {
 
-                    .fuse-vertical-navigation-aside-wrapper {
+                    .ruze-vertical-navigation-aside-wrapper {
                         left: auto;
-                        right: var(--fuse-vertical-navigation-width);
+                        right: var(--ruze-vertical-navigation-width);
                     }
                 }
             }
         }
 
         /* Wrapper */
-        .fuse-vertical-navigation-wrapper {
+        .ruze-vertical-navigation-wrapper {
 
             /* Content */
-            .fuse-vertical-navigation-content {
+            .ruze-vertical-navigation-content {
 
-                fuse-vertical-navigation-aside-item,
-                fuse-vertical-navigation-basic-item,
-                fuse-vertical-navigation-collapsable-item,
-                fuse-vertical-navigation-group-item {
+                ruze-vertical-navigation-aside-item,
+                ruze-vertical-navigation-basic-item,
+                ruze-vertical-navigation-collapsable-item,
+                ruze-vertical-navigation-group-item {
 
-                    .fuse-vertical-navigation-item-wrapper {
+                    .ruze-vertical-navigation-item-wrapper {
 
-                        .fuse-vertical-navigation-item {
-                            width: calc(var(--fuse-vertical-navigation-dense-width) - 24px);
-                            min-width: calc(var(--fuse-vertical-navigation-dense-width) - 24px);
-                            max-width: calc(var(--fuse-vertical-navigation-dense-width) - 24px);
+                        .ruze-vertical-navigation-item {
+                            width: calc(var(--ruze-vertical-navigation-dense-width) - 24px);
+                            min-width: calc(var(--ruze-vertical-navigation-dense-width) - 24px);
+                            max-width: calc(var(--ruze-vertical-navigation-dense-width) - 24px);
 
-                            .fuse-vertical-navigation-item-arrow,
-                            .fuse-vertical-navigation-item-badge,
-                            .fuse-vertical-navigation-item-title-wrapper {
+                            .ruze-vertical-navigation-item-arrow,
+                            .ruze-vertical-navigation-item-badge,
+                            .ruze-vertical-navigation-item-title-wrapper {
                                 transition: opacity 400ms cubic-bezier(0.25, 0.8, 0.25, 1);
                             }
                         }
                     }
                 }
 
-                fuse-vertical-navigation-group-item {
+                ruze-vertical-navigation-group-item {
 
                     &:first-of-type {
                         margin-top: 0;
@@ -93,40 +93,40 @@ fuse-vertical-navigation {
             }
         }
 
-        &:not(.fuse-vertical-navigation-hover):not(.fuse-vertical-navigation-mode-over) {
+        &:not(.ruze-vertical-navigation-hover):not(.ruze-vertical-navigation-mode-over) {
 
             /* Wrapper */
-            .fuse-vertical-navigation-wrapper {
+            .ruze-vertical-navigation-wrapper {
 
                 /* Content */
-                .fuse-vertical-navigation-content {
+                .ruze-vertical-navigation-content {
 
-                    .fuse-vertical-navigation-item-wrapper {
+                    .ruze-vertical-navigation-item-wrapper {
 
-                        .fuse-vertical-navigation-item {
+                        .ruze-vertical-navigation-item {
                             padding: 10px 16px;
 
-                            .fuse-vertical-navigation-item-arrow,
-                            .fuse-vertical-navigation-item-badge,
-                            .fuse-vertical-navigation-item-title-wrapper {
+                            .ruze-vertical-navigation-item-arrow,
+                            .ruze-vertical-navigation-item-badge,
+                            .ruze-vertical-navigation-item-title-wrapper {
                                 white-space: nowrap;
                                 opacity: 0;
                             }
                         }
                     }
 
-                    fuse-vertical-navigation-collapsable-item {
+                    ruze-vertical-navigation-collapsable-item {
 
-                        .fuse-vertical-navigation-item-children {
+                        .ruze-vertical-navigation-item-children {
                             display: none;
                         }
                     }
 
-                    fuse-vertical-navigation-group-item {
+                    ruze-vertical-navigation-group-item {
 
-                        > .fuse-vertical-navigation-item-wrapper {
+                        > .ruze-vertical-navigation-item-wrapper {
 
-                            .fuse-vertical-navigation-item {
+                            .ruze-vertical-navigation-item {
 
                                 &:before {
                                     content: '';
@@ -143,28 +143,28 @@ fuse-vertical-navigation {
         }
 
         /* Aside wrapper */
-        .fuse-vertical-navigation-aside-wrapper {
-            left: var(--fuse-vertical-navigation-dense-width);
+        .ruze-vertical-navigation-aside-wrapper {
+            left: var(--ruze-vertical-navigation-dense-width);
         }
 
         /* Hover */
-        &.fuse-vertical-navigation-hover {
+        &.ruze-vertical-navigation-hover {
 
-            .fuse-vertical-navigation-wrapper {
-                width: var(--fuse-vertical-navigation-width);
+            .ruze-vertical-navigation-wrapper {
+                width: var(--ruze-vertical-navigation-width);
 
-                .fuse-vertical-navigation-content {
+                .ruze-vertical-navigation-content {
 
-                    .fuse-vertical-navigation-item-wrapper {
+                    .ruze-vertical-navigation-item-wrapper {
 
-                        .fuse-vertical-navigation-item {
-                            width: calc(var(--fuse-vertical-navigation-width) - 24px);
-                            min-width: calc(var(--fuse-vertical-navigation-width) - 24px);
-                            max-width: calc(var(--fuse-vertical-navigation-width) - 24px);
+                        .ruze-vertical-navigation-item {
+                            width: calc(var(--ruze-vertical-navigation-width) - 24px);
+                            min-width: calc(var(--ruze-vertical-navigation-width) - 24px);
+                            max-width: calc(var(--ruze-vertical-navigation-width) - 24px);
 
-                            .fuse-vertical-navigation-item-arrow,
-                            .fuse-vertical-navigation-item-badge,
-                            .fuse-vertical-navigation-item-title-wrapper {
+                            .ruze-vertical-navigation-item-arrow,
+                            .ruze-vertical-navigation-item-badge,
+                            .ruze-vertical-navigation-item-title-wrapper {
                                 white-space: nowrap;
                                 animation: removeWhiteSpaceNoWrap 1ms linear 350ms;
                                 animation-fill-mode: forwards;
@@ -174,8 +174,8 @@ fuse-vertical-navigation {
                 }
             }
 
-            .fuse-vertical-navigation-aside-wrapper {
-                left: var(--fuse-vertical-navigation-width);
+            .ruze-vertical-navigation-aside-wrapper {
+                left: var(--ruze-vertical-navigation-width);
             }
         }
     }

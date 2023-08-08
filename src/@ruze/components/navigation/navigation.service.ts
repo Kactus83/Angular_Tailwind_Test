@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { FuseNavigationItem } from '@fuse/components/navigation/navigation.types';
+import { RuzeNavigationItem } from './navigation.types';
 
 @Injectable({
     providedIn: 'root'
 })
-export class FuseNavigationService
+export class RuzeNavigationService
 {
     private _componentRegistry: Map<string, any> = new Map<string, any>();
-    private _navigationStore: Map<string, FuseNavigationItem[]> = new Map<string, any>();
+    private _navigationStore: Map<string, RuzeNavigationItem[]> = new Map<string, any>();
 
     /**
      * Constructor
@@ -57,7 +57,7 @@ export class FuseNavigationService
      * @param key
      * @param navigation
      */
-    storeNavigation(key: string, navigation: FuseNavigationItem[]): void
+    storeNavigation(key: string, navigation: RuzeNavigationItem[]): void
     {
         // Add to the store
         this._navigationStore.set(key, navigation);
@@ -68,7 +68,7 @@ export class FuseNavigationService
      *
      * @param key
      */
-    getNavigation(key: string): FuseNavigationItem[]
+    getNavigation(key: string): RuzeNavigationItem[]
     {
         return this._navigationStore.get(key) ?? [];
     }
@@ -97,7 +97,7 @@ export class FuseNavigationService
      * @param navigation
      * @param flatNavigation
      */
-    getFlatNavigation(navigation: FuseNavigationItem[], flatNavigation: FuseNavigationItem[] = []): FuseNavigationItem[]
+    getFlatNavigation(navigation: RuzeNavigationItem[], flatNavigation: RuzeNavigationItem[] = []): RuzeNavigationItem[]
     {
         for ( const item of navigation )
         {
@@ -126,7 +126,7 @@ export class FuseNavigationService
      * @param id
      * @param navigation
      */
-    getItem(id: string, navigation: FuseNavigationItem[]): FuseNavigationItem | null
+    getItem(id: string, navigation: RuzeNavigationItem[]): RuzeNavigationItem | null
     {
         for ( const item of navigation )
         {
@@ -159,9 +159,9 @@ export class FuseNavigationService
      */
     getItemParent(
         id: string,
-        navigation: FuseNavigationItem[],
-        parent: FuseNavigationItem[] | FuseNavigationItem
-    ): FuseNavigationItem[] | FuseNavigationItem | null
+        navigation: RuzeNavigationItem[],
+        parent: RuzeNavigationItem[] | RuzeNavigationItem
+    ): RuzeNavigationItem[] | RuzeNavigationItem | null
     {
         for ( const item of navigation )
         {

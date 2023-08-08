@@ -1,20 +1,20 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
-import { FuseHorizontalNavigationComponent } from '@fuse/components/navigation/horizontal/horizontal.component';
-import { FuseNavigationService } from '@fuse/components/navigation/navigation.service';
-import { FuseNavigationItem } from '@fuse/components/navigation/navigation.types';
+import { RuzeHorizontalNavigationComponent } from '../../horizontal.component';
+import { RuzeNavigationService } from '../../../navigation.service';
+import { RuzeNavigationItem } from '../../../navigation.types';
 
 @Component({
-    selector       : 'fuse-horizontal-navigation-spacer-item',
+    selector       : 'ruze-horizontal-navigation-spacer-item',
     templateUrl    : './spacer.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FuseHorizontalNavigationSpacerItemComponent implements OnInit, OnDestroy
+export class RuzeHorizontalNavigationSpacerItemComponent implements OnInit, OnDestroy
 {
-    @Input() item: FuseNavigationItem;
+    @Input() item: RuzeNavigationItem;
     @Input() name: string;
 
-    private _fuseHorizontalNavigationComponent: FuseHorizontalNavigationComponent;
+    private _ruzeHorizontalNavigationComponent: RuzeHorizontalNavigationComponent;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -22,7 +22,7 @@ export class FuseHorizontalNavigationSpacerItemComponent implements OnInit, OnDe
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseNavigationService: FuseNavigationService
+        private _ruzeNavigationService: RuzeNavigationService
     )
     {
     }
@@ -37,10 +37,10 @@ export class FuseHorizontalNavigationSpacerItemComponent implements OnInit, OnDe
     ngOnInit(): void
     {
         // Get the parent navigation component
-        this._fuseHorizontalNavigationComponent = this._fuseNavigationService.getComponent(this.name);
+        this._ruzeHorizontalNavigationComponent = this._ruzeNavigationService.getComponent(this.name);
 
         // Subscribe to onRefreshed on the navigation component
-        this._fuseHorizontalNavigationComponent.onRefreshed.pipe(
+        this._ruzeHorizontalNavigationComponent.onRefreshed.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(() => {
 

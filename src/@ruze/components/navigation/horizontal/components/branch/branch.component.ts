@@ -2,27 +2,27 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy
 import { BooleanInput } from '@angular/cdk/coercion';
 import { MatMenu } from '@angular/material/menu';
 import { Subject, takeUntil } from 'rxjs';
-import { FuseHorizontalNavigationComponent } from '@fuse/components/navigation/horizontal/horizontal.component';
-import { FuseNavigationService } from '@fuse/components/navigation/navigation.service';
-import { FuseNavigationItem } from '@fuse/components/navigation/navigation.types';
+import { RuzeHorizontalNavigationComponent } from '../../horizontal.component';
+import { RuzeNavigationService } from '../../../navigation.service';
+import { RuzeNavigationItem } from '../../../navigation.types';
 
 @Component({
-    selector       : 'fuse-horizontal-navigation-branch-item',
+    selector       : 'ruze-horizontal-navigation-branch-item',
     templateUrl    : './branch.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FuseHorizontalNavigationBranchItemComponent implements OnInit, OnDestroy
+export class RuzeHorizontalNavigationBranchItemComponent implements OnInit, OnDestroy
 {
     /* eslint-disable @typescript-eslint/naming-convention */
     static ngAcceptInputType_child: BooleanInput;
     /* eslint-enable @typescript-eslint/naming-convention */
 
     @Input() child: boolean = false;
-    @Input() item: FuseNavigationItem;
+    @Input() item: RuzeNavigationItem;
     @Input() name: string;
     @ViewChild('matMenu', {static: true}) matMenu: MatMenu;
 
-    private _fuseHorizontalNavigationComponent: FuseHorizontalNavigationComponent;
+    private _ruzeHorizontalNavigationComponent: RuzeHorizontalNavigationComponent;
     private _unsubscribeAll: Subject<any> = new Subject<any>();
 
     /**
@@ -30,7 +30,7 @@ export class FuseHorizontalNavigationBranchItemComponent implements OnInit, OnDe
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseNavigationService: FuseNavigationService
+        private _ruzeNavigationService: RuzeNavigationService
     )
     {
     }
@@ -45,10 +45,10 @@ export class FuseHorizontalNavigationBranchItemComponent implements OnInit, OnDe
     ngOnInit(): void
     {
         // Get the parent navigation component
-        this._fuseHorizontalNavigationComponent = this._fuseNavigationService.getComponent(this.name);
+        this._ruzeHorizontalNavigationComponent = this._ruzeNavigationService.getComponent(this.name);
 
         // Subscribe to onRefreshed on the navigation component
-        this._fuseHorizontalNavigationComponent.onRefreshed.pipe(
+        this._ruzeHorizontalNavigationComponent.onRefreshed.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(() => {
 

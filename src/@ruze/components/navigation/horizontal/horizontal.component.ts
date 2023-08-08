@@ -1,23 +1,23 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { ReplaySubject, Subject } from 'rxjs';
-import { fuseAnimations } from '@fuse/animations';
-import { FuseNavigationItem } from '@fuse/components/navigation/navigation.types';
-import { FuseNavigationService } from '@fuse/components/navigation/navigation.service';
-import { FuseUtilsService } from '@fuse/services/utils/utils.service';
+import { ruzeAnimations } from '../../../animations';
+import { RuzeNavigationItem } from '../navigation.types';
+import { RuzeNavigationService } from '../navigation.service';
+import { RuzeUtilsService } from '../../../services/utils/utils.service';
 
 @Component({
-    selector       : 'fuse-horizontal-navigation',
+    selector       : 'ruze-horizontal-navigation',
     templateUrl    : './horizontal.component.html',
     styleUrls      : ['./horizontal.component.scss'],
-    animations     : fuseAnimations,
+    animations     : ruzeAnimations,
     encapsulation  : ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
-    exportAs       : 'fuseHorizontalNavigation'
+    exportAs       : 'ruzeHorizontalNavigation'
 })
-export class FuseHorizontalNavigationComponent implements OnChanges, OnInit, OnDestroy
+export class RuzeHorizontalNavigationComponent implements OnChanges, OnInit, OnDestroy
 {
-    @Input() name: string = this._fuseUtilsService.randomId();
-    @Input() navigation: FuseNavigationItem[];
+    @Input() name: string = this._ruzeUtilsService.randomId();
+    @Input() navigation: RuzeNavigationItem[];
 
     onRefreshed: ReplaySubject<boolean> = new ReplaySubject<boolean>(1);
     private _unsubscribeAll: Subject<any> = new Subject<any>();
@@ -27,8 +27,8 @@ export class FuseHorizontalNavigationComponent implements OnChanges, OnInit, OnD
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseNavigationService: FuseNavigationService,
-        private _fuseUtilsService: FuseUtilsService
+        private _ruzeNavigationService: RuzeNavigationService,
+        private _ruzeUtilsService: RuzeUtilsService
     )
     {
     }
@@ -60,11 +60,11 @@ export class FuseHorizontalNavigationComponent implements OnChanges, OnInit, OnD
         // Make sure the name input is not an empty string
         if ( this.name === '' )
         {
-            this.name = this._fuseUtilsService.randomId();
+            this.name = this._ruzeUtilsService.randomId();
         }
 
         // Register the navigation component
-        this._fuseNavigationService.registerComponent(this.name, this);
+        this._ruzeNavigationService.registerComponent(this.name, this);
     }
 
     /**
@@ -73,7 +73,7 @@ export class FuseHorizontalNavigationComponent implements OnChanges, OnInit, OnD
     ngOnDestroy(): void
     {
         // Deregister the navigation component from the registry
-        this._fuseNavigationService.deregisterComponent(this.name);
+        this._ruzeNavigationService.deregisterComponent(this.name);
 
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next(null);

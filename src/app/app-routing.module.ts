@@ -48,10 +48,19 @@ export const appRoutes: Route[] = [
         canMatch: [AuthGuard],
         component: LayoutComponent,
         data: {
-            layout: 'default'
+            layout: 'empty'
         },
         children: [
-            {path: 'sign-out', loadChildren: () => import('./modules/auth/sign-out/sign-out.module').then(m => m.AuthSignOutModule)},
+            {path: 'sign-out', loadChildren: () => import('./modules/auth/sign-out/sign-out.module').then(m => m.AuthSignOutModule)}
+        ]
+    },
+
+    // Routes for authenticated users
+    {
+        path: '',
+        canMatch: [AuthGuard],
+        component: LayoutComponent,
+        children: [
             {path: 'test', loadChildren: () => import('./modules/test-page/test-page.module').then(m => m.TestPageModule)},
         ]
     },
@@ -61,7 +70,7 @@ export const appRoutes: Route[] = [
         path: '',
         component: LayoutComponent,
         data: {
-            layout: 'default'
+            layout: 'empty'
         },
         children: [
             {path: 'home', loadChildren: () => import('./modules/home/home.module').then(m => m.HomeModule)},

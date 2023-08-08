@@ -11,7 +11,6 @@ import { RuzeModule } from 'src/@ruze/ruze.module';
 import { RuzeConfigModule } from 'src/@ruze/services/config';
 import { appConfig } from './core/config/app.config';
 import { CoreModule } from './core/core.module';
-import { FakeBackendModule } from './fake-backend/fake-backend.module';
 
 @NgModule({
   declarations: [
@@ -27,9 +26,7 @@ import { FakeBackendModule } from './fake-backend/fake-backend.module';
     CoreModule,
     // Fuse, FuseConfig & FuseMockAPI
     RuzeModule,
-    RuzeConfigModule.forRoot(appConfig),
-    //For test
-    FakeBackendModule
+    RuzeConfigModule.forRoot(appConfig)
   ],
   providers: [],
   bootstrap: [AppComponent]

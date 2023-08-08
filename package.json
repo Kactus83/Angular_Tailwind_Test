@@ -26,6 +26,7 @@
     "highlight.js": "11.7.0",
     "jsonwebtoken": "^9.0.1",
     "lodash-es": "^4.17.21",
+    "luxon": "3.3.0",
     "perfect-scrollbar": "1.5.5",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
